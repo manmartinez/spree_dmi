@@ -1,6 +1,9 @@
 Spree DMI
 =========
 
+[![Circle CI](https://circleci.com/gh/manmartinez/spree_dmi.svg?style=svg&circle-token=6469ead150cd3770e7f70ac8a568863268cbcc2d)](https://circleci.com/gh/manmartinez/spree_dmi) [![Code Climate](https://codeclimate.com/github/manmartinez/spree_dmi/badges/gpa.svg)](https://codeclimate.com/github/manmartinez/spree_dmi)
+
+
 Send your Spree orders to DMI, sync shipment status and keep track of your inventory on both sides
 
 Installation
