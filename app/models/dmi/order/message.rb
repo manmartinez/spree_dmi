@@ -1,69 +1,90 @@
 class DMI::Order::Message
 
-  attr_accessor :order, :builder
+  attr_accessor :order
 
   def initialize(order)
     self.order = order
-    make_builder
   end
 
-  def make_builder
-    self.builder = Nokogiri::XML::Builder.new do |xml|
-      xml['dmi'].PurchaseOrders(
-        'xmlns:dmi' => 'http://portal.suppliesnet.net', 
-        'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance', 
-        'TestIndicator' => 'T', 
-        'SenderID' => '5wP6q0xXfM89f6pD',
-        'ReceiverID' => '064632888') {
-        xml['dmi'].PurchaseOrder {
-          xml['dmi'].OrderType 'Stock Order'
-          xml['dmi'].BillTo {
-            address_xml(order.ship_address, xml)
-          }
-          xml['dmi'].ShipTo {
-            address_xml(order.bill_address, xml)
-          }
-          xml['dmi'].PurchaseOrderLines {
-            order.line_items.each_with_index do |line_item, index|
-              line_item_xml(line_item, index + 1, xml)
+  def to_xml
+    builder.to_xml
+  end
+
+  def builder
+    return @builder if defined? @builder
+    @builder = Nokogiri::XML::Builder.new do |xml|
+      xml['soap'].Envelope(namespaces) do
+        xml['soap'].Body do
+          xml.PlaceOrder do
+            xml.PurchaseOrders do
+              xml.PurchaseOrders(
+                'TestIndicator' => 'T', 
+                'SenderID' => Spree::Config.dmi_sender_id,
+                'ReceiverID' => Spree::Config.dmi_receiver_id) do
+                order_xml(xml)
+              end  
             end
-          }
-          xml['dmi'].EndUserConfirmationEmailAddress order.email
-        }
-      }
+          end
+        end
+      end
     end
   end
 
-  def to_s
-    builder.doc.root.to_xml
+  protected
+
+  def namespaces
+    {
+      'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
+      'xmlns:xsd' => 'http://www.w3.org/2001/XMLSchema',
+      'xmlns:soap' => 'http://schemas.xmlsoap.org/soap/envelope/',
+      'xmlns' => 'http://portal.suppliesnet.net'
+    }
+  end
+
+  def order_xml(xml)
+    xml.PurchaseOrder do
+      xml.OrderType 'Stock Order'
+      xml.BillTo do
+        address_xml(order.bill_address, xml)
+      end
+      xml.ShipTo do
+        address_xml(order.ship_address, xml)
+      end
+      xml.PurchaseOrderLines do
+        order.line_items.each_with_index do |line_item, index|
+          line_item_xml(line_item, index + 1, xml)
+        end
+      end
+      xml.EndUserConfirmationEmailAddress order.email
+    end
   end
 
   def address_xml(address, xml)
-    xml['dmi'].Name address.full_name
-    xml['dmi'].Address1 address.address1
+    xml.Name address.full_name
+    xml.Address1 address.address1
     unless address.address2.blank?
-      xml['dmi'].Address2 address.address2
+      xml.Address2 address.address2
     end
-    xml['dmi'].City address.city
-    xml['dmi'].State address.state_text.upcase
-    xml['dmi'].ZipCode address.zipcode
-    xml['dmi'].CountryCode address.country.try(:iso)
-    xml['dmi'].Contact {
-      xml['dmi'].ContactName address.full_name
-      xml['dmi'].ContactMethod 'Phone'
-      xml['dmi'].ContactAddress address.phone
-    }
+    xml.City address.city
+    xml.State address.state_text.upcase
+    xml.ZipCode address.zipcode
+    xml.CountryCode address.country.try(:iso)
+    xml.Contact do
+      xml.ContactName address.full_name
+      xml.ContactMethod 'Phone'
+      xml.ContactAddress address.phone
+    end
   end
 
   def line_item_xml(line_item, rank, xml)
-    xml['dmi'].PurchaseOrderLine {
-      xml['dmi'].Rank rank
-      xml['dmi'].OEMNumber line_item.sku
-      xml['dmi'].Description line_item.description
-      xml['dmi'].OrderQuantity line_item.quantity
-      xml['dmi'].UOM 'PK'
-      xml['dmi'].UnitPrice line_item.price
-    }
+    xml.PurchaseOrderLine do
+      xml.Rank rank
+      xml.OEMNumber line_item.sku
+      xml.Description line_item.name
+      xml.OrderQuantity line_item.quantity
+      xml.UOM 'PK'
+      xml.UnitPrice line_item.price
+    end
   end
 
 end

@@ -1,0 +1,67 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <soap:Body>
+        <PlaceOrderResponse xmlns="http://portal.suppliesnet.net">
+            <PlaceOrderResult>
+                <dmi:PurchaseOrderAcknowledgments TestIndicator="T" SenderID="064632888" ReceiverID="5wP6q0xXfM89f6pD" xmlns:dmi="http://portal.suppliesnet.net">
+                    <dmi:PurchaseOrderAcknowledgment>
+                        <dmi:OrderStatus>Processed</dmi:OrderStatus>
+                        <dmi:OrderNumber>26110843</dmi:OrderNumber>
+                        <dmi:OrderType>Stock Order</dmi:OrderType>
+                        </dmi:DealerPONumber>
+                        <dmi:ProductTotal>0.00</dmi:ProductTotal>
+                        <dmi:Shipping>0.00</dmi:Shipping>
+                        <dmi:Handling>0.00</dmi:Handling>
+                        <dmi:Tax>0.00</dmi:Tax>
+                        <dmi:OrderTotal>0.00</dmi:OrderTotal>
+                        <dmi:PODate>20141205</dmi:PODate>
+                        <dmi:ShipTo>
+                            <dmi:Name>Sergio Caballero</dmi:Name>
+                            <dmi:Address1>281 River Street</dmi:Address1>
+                            <dmi:Address2>2nd Floor</dmi:Address2>
+                            <dmi:City>Cambridge</dmi:City>
+                            <dmi:State>MA</dmi:State>
+                            <dmi:ZipCode>02139</dmi:ZipCode>
+                            <dmi:Contact>
+                                <dmi:ContactName>Sergio Caballero</dmi:ContactName>
+                                <dmi:ContactMethod>Phone</dmi:ContactMethod>
+                                <dmi:ContactAddress>6175998660</dmi:ContactAddress>
+                            </dmi:Contact>
+                        </dmi:ShipTo>
+                        <dmi:BillTo>
+                            <dmi:Name>Gather and Gown Piccione Fashion Group LLC</dmi:Name>
+                            <dmi:Attn>Carolyn Brehony</dmi:Attn>
+                            <dmi:Address1>7 East Butler Street</dmi:Address1>
+                            <dmi:City>Ambler</dmi:City>
+                            <dmi:State>PA</dmi:State>
+                            <dmi:ZipCode>19002</dmi:ZipCode>
+                            <dmi:Contact>
+                                <dmi:ContactName>Manuel Martinez</dmi:ContactName>
+                                <dmi:ContactMethod>Phone</dmi:ContactMethod>
+                                <dmi:ContactAddress>6175998660</dmi:ContactAddress>
+                            </dmi:Contact>
+                        </dmi:BillTo>
+                        <dmi:Contact>
+                            <dmi:ContactName>Sergio Caballero</dmi:ContactName>
+                            <dmi:ContactMethod>Phone</dmi:ContactMethod>
+                            <dmi:ContactAddress>6175998660</dmi:ContactAddress>
+                        </dmi:Contact>
+                        <dmi:PurchaseOrderLines>
+                            <dmi:PurchaseOrderLine>
+                                <dmi:Rank>1</dmi:Rank>
+                                <dmi:OEMNumber>841086107036</dmi:OEMNumber>
+                                <dmi:ReferenceNumber>934675</dmi:ReferenceNumber>
+                                <dmi:BuyerPartNumber>841086107036</dmi:BuyerPartNumber>
+                                <dmi:OrderQuantity>1</dmi:OrderQuantity>
+                                <dmi:CommittedQuantity>1</dmi:CommittedQuantity>
+                                <dmi:UOM>PK</dmi:UOM>
+                                <dmi:UnitPrice>0.00</dmi:UnitPrice>
+                                <dmi:ItemStatus>Item Changed</dmi:ItemStatus>
+                                <dmi:StatusInformation>DIFFERENT PRICE</dmi:StatusInformation>
+                            </dmi:PurchaseOrderLine>
+                        </dmi:PurchaseOrderLines>
+                    </dmi:PurchaseOrderAcknowledgment>
+                </dmi:PurchaseOrderAcknowledgments>
+            </PlaceOrderResult>
+        </PlaceOrderResponse>
+    </soap:Body>
+</soap:Envelope>

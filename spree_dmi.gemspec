@@ -2,9 +2,9 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_dmi'
-  s.version     = '2.4.0'
+  s.version     = '0.0.1'
   s.summary     = 'Integrate spree with DMI'
-  s.description = 'Allows easy integration for spree with DMI'
+  s.description = 'Allows easy integration of spree with DMI'
   s.required_ruby_version = '>= 1.9.3'
 
   s.author    = 'Manuel Martinez'

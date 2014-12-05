@@ -1,0 +1,67 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <soap:Body>
+        <PlaceOrderResponse xmlns="http://portal.suppliesnet.net">
+            <PlaceOrderResult>
+                <dmi:PurchaseOrderAcknowledgments TestIndicator="T" SenderID="064632888" ReceiverID="5wP6q0xXfM89f6pD" xmlns:dmi="http://portal.suppliesnet.net">
+                    <dmi:PurchaseOrderAcknowledgment>
+                        <dmi:Errors>
+                            <dmi:Error>
+                                <dmi:ErrorNumber>505</dmi:ErrorNumber>
+                                <dmi:ErrorDescription>No valid product in order. Check part number, price and/or availability.</dmi:ErrorDescription>
+                                </dmi:ErrorPONumber>
+                            </dmi:Error>
+                        </dmi:Errors>
+                        <dmi:OrderStatus>Processed</dmi:OrderStatus>
+                        <dmi:OrderNumber>FAILED</dmi:OrderNumber>
+                        <dmi:OrderType>Stock Order</dmi:OrderType>
+                        </dmi:DealerPONumber>
+                        <dmi:Shipping>0.00</dmi:Shipping>
+                        <dmi:Handling>0.00</dmi:Handling>
+                        <dmi:OrderTotal>0</dmi:OrderTotal>
+                        <dmi:PODate>20141205</dmi:PODate>
+                        <dmi:ShipTo>
+                            <dmi:Name>Leila Shields</dmi:Name>
+                            <dmi:Address1>62955 Meghan Parks</dmi:Address1>
+                            <dmi:Address2>Suite 532</dmi:Address2>
+                            <dmi:City>Stromanside</dmi:City>
+                            <dmi:State>NY</dmi:State>
+                            <dmi:ZipCode>16804</dmi:ZipCode>
+                            <dmi:CountryCode>US</dmi:CountryCode>
+                            <dmi:Contact>
+                                <dmi:ContactName>Leila Shields</dmi:ContactName>
+                                <dmi:ContactMethod>Phone</dmi:ContactMethod>
+                                <dmi:ContactAddress>705.970.1550 x228</dmi:ContactAddress>
+                            </dmi:Contact>
+                        </dmi:ShipTo>
+                        <dmi:BillTo>
+                            <dmi:Name>Alfredo Abernathy</dmi:Name>
+                            <dmi:Address1>46030 Orville Route</dmi:Address1>
+                            <dmi:Address2>Suite 423</dmi:Address2>
+                            <dmi:City>West Lonny</dmi:City>
+                            <dmi:State>NY</dmi:State>
+                            <dmi:ZipCode>16804</dmi:ZipCode>
+                            <dmi:Contact>
+                                <dmi:ContactName>Alfredo Abernathy</dmi:ContactName>
+                                <dmi:ContactMethod>Phone</dmi:ContactMethod>
+                                <dmi:ContactAddress>(818)065-7790 x645</dmi:ContactAddress>
+                            </dmi:Contact>
+                        </dmi:BillTo>
+                        <dmi:PurchaseOrderLines>
+                            <dmi:PurchaseOrderLine>
+                                <dmi:Rank>1</dmi:Rank>
+                                <dmi:OEMNumber>ROR-00011</dmi:OEMNumber>
+                                </dmi:ReferenceNumber>
+                                <dmi:OrderQuantity>1</dmi:OrderQuantity>
+                                <dmi:CommittedQuantity>0</dmi:CommittedQuantity>
+                                <dmi:UOM>PK</dmi:UOM>
+                                <dmi:UnitPrice>15.99</dmi:UnitPrice>
+                                <dmi:ItemStatus>Item Rejected</dmi:ItemStatus>
+                                <dmi:StatusInformation>No valid product in order. Check part number, price and/or availability.</dmi:StatusInformation>
+                            </dmi:PurchaseOrderLine>
+                        </dmi:PurchaseOrderLines>
+                    </dmi:PurchaseOrderAcknowledgment>
+                </dmi:PurchaseOrderAcknowledgments>
+            </PlaceOrderResult>
+        </PlaceOrderResponse>
+    </soap:Body>
+</soap:Envelope>

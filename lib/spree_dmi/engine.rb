@@ -9,6 +9,13 @@ module SpreeDmi
       g.test_framework :rspec
     end
 
+    initializer "spree.shipstation.preferences", :before => :load_config_initializers do |app|
+      Spree::AppConfiguration.class_eval do
+        preference :dmi_sender_id, :string
+        preference :dmi_receiver_id, :string
+      end
+    end
+
     def self.activate
       Dir.glob(File.join(File.dirname(__FILE__), '../../app/**/*_decorator*.rb')) do |c|
         Rails.configuration.cache_classes ? require(c) : load(c)
