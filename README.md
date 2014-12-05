@@ -1,7 +1,7 @@
 Spree DMI
 =========
 
-Introduction goes here.
+Send your Spree orders to DMI, sync shipment status and keep track of your inventory on both sides
 
 Installation
 ------------
