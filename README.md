@@ -29,7 +29,7 @@ First bundle your dependencies, then run `rake`. `rake` will default to building
 
 ```shell
 bundle
-bundle exec rake
+bundle exec rake test_app
 ```
 
 When testing your applications integration with this extension you may use it's factories.
