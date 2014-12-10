@@ -1,9 +1,8 @@
-class DMI::ShipmentNotice::DatesRequest
-  attr_accessor :start_date, :end_date
+class DMI::ShipmentNotice::OrdersRequest
+  attr_accessor :orders
 
-  def initialize(start_date, end_date)
-    self.start_date = start_date
-    self.end_date = end_date
+  def initialize(orders)
+    self.orders = orders
   end
 
   def builder
@@ -13,7 +12,7 @@ class DMI::ShipmentNotice::DatesRequest
         xml['soap'].Body do
           xml.RequestShipmentNoticeXML do 
             xml.ShipNoticeRequestNode do 
-              date_range_xml(xml)
+              orders_xml(xml)
             end
           end
         end
@@ -27,12 +26,13 @@ class DMI::ShipmentNotice::DatesRequest
 
   protected
 
-  def date_range_xml(xml)
+  def orders_xml(xml)
     xml.ShipNoticeRequest do
       xml.RequesterISA Spree::Config.dmi_sender_id
-      xml.ShipDateRange do 
-        xml.ShipDateFrom start_date.strftime('%Y-%m-%d')
-        xml.ShipDateTo end_date.strftime('%Y-%m-%d')
+      orders.each do |order|
+        xml.Order do 
+          xml.OrderNumber order.dmi_order_number
+        end
       end
     end
   end

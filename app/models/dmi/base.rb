@@ -3,10 +3,10 @@ class DMI::Base
   #
   # Returns the endpoint for DMI
   def self.dmi_endpoint
-    if Rails.env.development? || Rails.env.test?
-      'http://devportal.suppliesnet.net'
-    else
+    if Rails.env.production? 
       'https://portal.suppliesnet.net'
+    else
+      'http://devportal.suppliesnet.net'
     end
   end
 

@@ -7,12 +7,23 @@ class DMI::ShipmentNotice < DMI::Base
   # Public: Request a shipment notice using a date range.
   #
   # from  - The start date.
-  # to - The end date.
+  # to    - The end date.
   #
   # Returns true if no errors were encountered while
   # processing the response, false otherwise
   def request_with_dates(from, to)
     response = request_shipment_notice_xml(xml: DatesRequest.new(from, to).to_xml)
+    process_response(response)
+  end
+
+  # Public: Request a shipment notice using an array of orders.
+  #
+  # orders  - An array of Spree::Orders to request shipment status for.
+  #
+  # Returns true if no errors were encountered while processing 
+  # the response, false otherwise
+  def request_with_orders(orders)
+    response = request_shipment_notice_xml(xml: OrdersRequest.new(orders).to_xml)
     process_response(response)
   end
 
@@ -53,20 +64,22 @@ class DMI::ShipmentNotice < DMI::Base
   # 
   # This updates the shipping information in the corresponding orders
   #
-  # shipment  - The <Shipment> node.
+  # shipment   - The <Shipment> node.
   # namespaces - An array containing the namespaces of the XML response.
   #
   # Returns true if the order was updated correctly, false otherwise
   def process_shipment(shipment, namespaces)
-    order_number = shipment.at_xpath('//dmi:DealerPONumber', namespaces).try(:text)
+    order_number = shipment.at_xpath('//dmi:OrderNumber', namespaces).try(:text)
     order = Spree::Order.find_by(dmi_order_number: order_number) unless order_number.nil?
     return false if order.nil?
 
-    shipment = order.shipments.first
-    shipment.tracking = shipment.xpath('//dmi:ShipmentTrackingNumber', namespaces).map(&:text).join(',')
     shipped_at_string = shipment.at_xpath('//dmi:DateShipped', namespaces).try(:text)
-    shipment.shipped_at = Date.parse(shipped_at_string) unless shipped_at_string.nil?
-    shipment.ship
+    return true if shipped_at_string.blank? # The order hasn't shipped, nothing to update
+    
+    spree_shipment = order.shipments.first
+    spree_shipment.tracking = shipment.xpath('//dmi:ShipmentTrackingNumber', namespaces).map(&:text).join(',')
+    spree_shipment.shipped_at = Date.parse(shipped_at_string)
+    spree_shipment.ship
   end
 
   # Internal: Process a single <Error> node.
@@ -75,10 +88,10 @@ class DMI::ShipmentNotice < DMI::Base
   # orders involved in the error (if any) accordingly
   # and logging the error.
   #
-  # error  - The <Error> node
+  # error      - The <Error> node
   # namespaces - An array containing the namespaces of the XML response.
   def process_error(error, namespaces)
-    order_number = error.at_xpath('//dmi:ErrorPONumber', namespaces).try(:text)
+    order_number = error.at_xpath('//dmi:ErrorOrderNumber', namespaces).try(:text)
     description = error.at_xpath('//dmi:ErrorDescription', namespaces).try(:text)
     code = error.at_xpath('//dmi:ErrorNumber', namespaces).try(:text)
 
