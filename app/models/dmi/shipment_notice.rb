@@ -81,7 +81,7 @@ class DMI::ShipmentNotice < DMI::Base
     return false if order.nil?
 
     shipped_at_string = shipment.at_xpath('dmi:DateShipped', namespaces).try(:text)
-    return true if shipped_at_string.blank? # The order hasn't shipped, nothing to update
+    return true if shipped_at_string.blank? || order.shipped?
     
     spree_shipment = order.shipments.first
     spree_shipment.tracking = shipment.xpath('dmi:ShipmentTrackingNumbers/dmi:ShipmentTrackingNumber', namespaces).map(&:text).join(',')

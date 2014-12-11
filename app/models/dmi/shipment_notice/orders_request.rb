@@ -5,24 +5,15 @@ class DMI::ShipmentNotice::OrdersRequest < DMI::Request
     self.orders = orders
   end
 
-  def builder
-    return @builder if defined? @builder
-    @builder = Nokogiri::XML::Builder.new do |xml|
-      soap_envelope(xml) do
-        xml.RequestShipmentNoticeXML do 
-          xml.ShipNoticeRequestNode do 
-            orders_xml(xml)
-          end
-        end
+  protected
+
+  def soap_body(xml)
+    xml.RequestShipmentNoticeXML do 
+      xml.ShipNoticeRequestNode do 
+        orders_xml(xml)
       end
     end
   end
-
-  def to_xml
-    builder.to_xml
-  end
-
-  protected
 
   def orders_xml(xml)
     xml.ShipNoticeRequest do

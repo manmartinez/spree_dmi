@@ -6,24 +6,15 @@ class DMI::ShipmentNotice::DatesRequest < DMI::Request
     self.end_date = end_date
   end
 
-  def builder
-    return @builder if defined? @builder
-    @builder = Nokogiri::XML::Builder.new do |xml|
-      soap_envelope(xml) do
-        xml.RequestShipmentNoticeXML do 
-          xml.ShipNoticeRequestNode do 
-            date_range_xml(xml)
-          end
-        end
+  protected
+
+  def soap_body(xml)
+    xml.RequestShipmentNoticeXML do 
+      xml.ShipNoticeRequestNode do 
+        date_range_xml(xml)
       end
     end
   end
-
-  def to_xml
-    builder.to_xml
-  end
-
-  protected
 
   def date_range_xml(xml)
     xml.ShipNoticeRequest do

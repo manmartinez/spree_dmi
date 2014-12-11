@@ -1,6 +1,19 @@
 class DMI::Request
 
+  def to_xml
+    builder.to_xml
+  end
+
   protected
+
+  def builder
+    return @builder if defined? @builder
+    @builder = Nokogiri::XML::Builder.new do |xml|
+      soap_envelope(xml) do
+        soap_body(xml)
+      end
+    end
+  end
 
   def soap_envelope(xml)
     xml['soap'].Envelope(namespaces) do

@@ -6,29 +6,24 @@ class DMI::Order::Message < DMI::Request
     self.order = order
   end
 
-  def to_xml
-    builder.to_xml
-  end
+  protected
 
-  def builder
-    return @builder if defined? @builder
-    @builder = Nokogiri::XML::Builder.new do |xml|
-      soap_envelope(xml) do
-        xml.PlaceOrder do
-          xml.PurchaseOrders do
-            xml.PurchaseOrders(
-              'TestIndicator' => 'T', 
-              'SenderID' => Spree::Config.dmi_sender_id,
-              'ReceiverID' => Spree::Config.dmi_receiver_id) do
-              order_xml(xml)
-            end  
-          end
-        end
+  def soap_body(xml)
+    xml.PlaceOrder do
+      xml.PurchaseOrders do
+        xml.PurchaseOrders(
+          'TestIndicator' => test_indicator, 
+          'SenderID' => Spree::Config.dmi_sender_id,
+          'ReceiverID' => Spree::Config.dmi_receiver_id) do
+          order_xml(xml)
+        end  
       end
     end
   end
 
-  protected
+  def test_indicator
+    Rails.env.production? ? 'P' : 'T'
+  end
 
   def order_xml(xml)
     xml.PurchaseOrder do
