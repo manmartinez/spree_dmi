@@ -1,4 +1,4 @@
-class DMI::ShipmentNotice::DatesRequest
+class DMI::ShipmentNotice::DatesRequest < DMI::Request
   attr_accessor :start_date, :end_date
 
   def initialize(start_date, end_date)
@@ -9,12 +9,10 @@ class DMI::ShipmentNotice::DatesRequest
   def builder
     return @builder if defined? @builder
     @builder = Nokogiri::XML::Builder.new do |xml|
-      xml['soap'].Envelope(namespaces) do
-        xml['soap'].Body do
-          xml.RequestShipmentNoticeXML do 
-            xml.ShipNoticeRequestNode do 
-              date_range_xml(xml)
-            end
+      soap_envelope(xml) do
+        xml.RequestShipmentNoticeXML do 
+          xml.ShipNoticeRequestNode do 
+            date_range_xml(xml)
           end
         end
       end
@@ -35,14 +33,5 @@ class DMI::ShipmentNotice::DatesRequest
         xml.ShipDateTo end_date.strftime('%Y-%m-%d')
       end
     end
-  end
-
-  def namespaces
-    {
-      'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-      'xmlns:xsd' => 'http://www.w3.org/2001/XMLSchema',
-      'xmlns:soap' => 'http://schemas.xmlsoap.org/soap/envelope/',
-      'xmlns' => 'http://portal.suppliesnet.net'
-    }
   end
 end

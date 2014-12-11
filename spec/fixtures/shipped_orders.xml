@@ -1,0 +1,98 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <soap:Body>
+        <RequestShipmentNoticeXMLResponse xmlns="http://portal.suppliesnet.net">
+            <RequestShipmentNoticeXMLResult>
+                <dmi:Shipments TestIndicator="T" SenderID="064632888" ReceiverID="5wP6q0xXfM89f6pD" xmlns:dmi="http://portal.suppliesnet.net">
+                    <dmi:Shipment>
+                        <dmi:OrderNumber>26110861</dmi:OrderNumber>
+                        <dmi:PODate>20141210</dmi:PODate>
+                        <dmi:ShipVia>UPS Ground</dmi:ShipVia>
+                        <dmi:DateShipped>20141211</dmi:DateShipped>
+                        <dmi:ShipTo>
+                            <dmi:Name>Manuel Martjnez</dmi:Name>
+                            <dmi:Address1>77 Massachusetts Avenue</dmi:Address1>
+                            <dmi:City>Cambridge</dmi:City>
+                            <dmi:State>MA</dmi:State>
+                            <dmi:ZipCode>02139</dmi:ZipCode>
+                        </dmi:ShipTo>
+                        <dmi:Name>Carlisle</dmi:Name>
+                        <dmi:Address1>1400 Distribution Drive</dmi:Address1>
+                        <dmi:Address2>Suite 3</dmi:Address2>
+                        <dmi:City>Carlisle</dmi:City>
+                        <dmi:State>PA</dmi:State>
+                        <dmi:ZipCode>17013</dmi:ZipCode>
+                        <dmi:ShipmentTrackingNumbers>
+                            <dmi:ShipmentTrackingNumber>12345-FAKE--246</dmi:ShipmentTrackingNumber>
+                        </dmi:ShipmentTrackingNumbers>
+                        <dmi:TotalUnitsShipped>1</dmi:TotalUnitsShipped>
+                        <dmi:ShipmentLineItemCount>1</dmi:ShipmentLineItemCount>
+                        <dmi:ShipmentLineItems>
+                            <dmi:ShipmentLineItem>
+                                <dmi:Rank>1</dmi:Rank>
+                                <dmi:ReferenceNumber>934675</dmi:ReferenceNumber>
+                                <dmi:BuyerPartNumber>841086107036</dmi:BuyerPartNumber>
+                                <dmi:OEMNumber>841086107036</dmi:OEMNumber>
+                                <dmi:UOM>PK</dmi:UOM>
+                                <dmi:OrderQuantity>1</dmi:OrderQuantity>
+                                <dmi:ShipQuantity>1</dmi:ShipQuantity>
+                                <dmi:ItemStatus>Item Accepted</dmi:ItemStatus>
+                                <dmi:ItemDescription>521-001-BLACK-0</dmi:ItemDescription>
+                                <dmi:LineNumber>1</dmi:LineNumber>
+                            </dmi:ShipmentLineItem>
+                        </dmi:ShipmentLineItems>
+                    </dmi:Shipment>
+                    <dmi:Shipment>
+                        <dmi:OrderNumber>26110862</dmi:OrderNumber>
+                        <dmi:PODate>20141210</dmi:PODate>
+                        <dmi:ShipVia>UPS Ground</dmi:ShipVia>
+                        <dmi:DateShipped>20141211</dmi:DateShipped>
+                        <dmi:ShipTo>
+                            <dmi:Name>Manuel Martjnez</dmi:Name>
+                            <dmi:Address1>77 Massachusetts Avenue</dmi:Address1>
+                            <dmi:City>Cambridge</dmi:City>
+                            <dmi:State>MA</dmi:State>
+                            <dmi:ZipCode>02139</dmi:ZipCode>
+                        </dmi:ShipTo>
+                        <dmi:Name>Carlisle</dmi:Name>
+                        <dmi:Address1>1400 Distribution Drive</dmi:Address1>
+                        <dmi:Address2>Suite 3</dmi:Address2>
+                        <dmi:City>Carlisle</dmi:City>
+                        <dmi:State>PA</dmi:State>
+                        <dmi:ZipCode>17013</dmi:ZipCode>
+                        <dmi:ShipmentTrackingNumbers>
+                            <dmi:ShipmentTrackingNumber>12345-FAKE--387</dmi:ShipmentTrackingNumber>
+                        </dmi:ShipmentTrackingNumbers>
+                        <dmi:TotalUnitsShipped>2</dmi:TotalUnitsShipped>
+                        <dmi:ShipmentLineItemCount>2</dmi:ShipmentLineItemCount>
+                        <dmi:ShipmentLineItems>
+                            <dmi:ShipmentLineItem>
+                                <dmi:Rank>1</dmi:Rank>
+                                <dmi:ReferenceNumber>934676</dmi:ReferenceNumber>
+                                <dmi:BuyerPartNumber>841086107043</dmi:BuyerPartNumber>
+                                <dmi:OEMNumber>841086107043</dmi:OEMNumber>
+                                <dmi:UOM>PK</dmi:UOM>
+                                <dmi:OrderQuantity>1</dmi:OrderQuantity>
+                                <dmi:ShipQuantity>1</dmi:ShipQuantity>
+                                <dmi:ItemStatus>Item Accepted</dmi:ItemStatus>
+                                <dmi:ItemDescription>521-001-BLACK-2</dmi:ItemDescription>
+                                <dmi:LineNumber>1</dmi:LineNumber>
+                            </dmi:ShipmentLineItem>
+                            <dmi:ShipmentLineItem>
+                                <dmi:Rank>2</dmi:Rank>
+                                <dmi:ReferenceNumber>934675</dmi:ReferenceNumber>
+                                <dmi:BuyerPartNumber>841086107036</dmi:BuyerPartNumber>
+                                <dmi:OEMNumber>841086107036</dmi:OEMNumber>
+                                <dmi:UOM>PK</dmi:UOM>
+                                <dmi:OrderQuantity>1</dmi:OrderQuantity>
+                                <dmi:ShipQuantity>1</dmi:ShipQuantity>
+                                <dmi:ItemStatus>Item Accepted</dmi:ItemStatus>
+                                <dmi:ItemDescription>521-001-BLACK-0</dmi:ItemDescription>
+                                <dmi:LineNumber>2</dmi:LineNumber>
+                            </dmi:ShipmentLineItem>
+                        </dmi:ShipmentLineItems>
+                    </dmi:Shipment>
+                </dmi:Shipments>
+            </RequestShipmentNoticeXMLResult>
+        </RequestShipmentNoticeXMLResponse>
+    </soap:Body>
+</soap:Envelope>

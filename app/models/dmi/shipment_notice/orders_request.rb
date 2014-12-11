@@ -1,4 +1,4 @@
-class DMI::ShipmentNotice::OrdersRequest
+class DMI::ShipmentNotice::OrdersRequest < DMI::Request
   attr_accessor :orders
 
   def initialize(orders)
@@ -8,12 +8,10 @@ class DMI::ShipmentNotice::OrdersRequest
   def builder
     return @builder if defined? @builder
     @builder = Nokogiri::XML::Builder.new do |xml|
-      xml['soap'].Envelope(namespaces) do
-        xml['soap'].Body do
-          xml.RequestShipmentNoticeXML do 
-            xml.ShipNoticeRequestNode do 
-              orders_xml(xml)
-            end
+      soap_envelope(xml) do
+        xml.RequestShipmentNoticeXML do 
+          xml.ShipNoticeRequestNode do 
+            orders_xml(xml)
           end
         end
       end
@@ -37,12 +35,4 @@ class DMI::ShipmentNotice::OrdersRequest
     end
   end
 
-  def namespaces
-    {
-      'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-      'xmlns:xsd' => 'http://www.w3.org/2001/XMLSchema',
-      'xmlns:soap' => 'http://schemas.xmlsoap.org/soap/envelope/',
-      'xmlns' => 'http://portal.suppliesnet.net'
-    }
-  end
 end

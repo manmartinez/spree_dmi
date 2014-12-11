@@ -1,4 +1,4 @@
-class DMI::Order::Message
+class DMI::Order::Message < DMI::Request
 
   attr_accessor :order
 
@@ -13,17 +13,15 @@ class DMI::Order::Message
   def builder
     return @builder if defined? @builder
     @builder = Nokogiri::XML::Builder.new do |xml|
-      xml['soap'].Envelope(namespaces) do
-        xml['soap'].Body do
-          xml.PlaceOrder do
-            xml.PurchaseOrders do
-              xml.PurchaseOrders(
-                'TestIndicator' => 'T', 
-                'SenderID' => Spree::Config.dmi_sender_id,
-                'ReceiverID' => Spree::Config.dmi_receiver_id) do
-                order_xml(xml)
-              end  
-            end
+      soap_envelope(xml) do
+        xml.PlaceOrder do
+          xml.PurchaseOrders do
+            xml.PurchaseOrders(
+              'TestIndicator' => 'T', 
+              'SenderID' => Spree::Config.dmi_sender_id,
+              'ReceiverID' => Spree::Config.dmi_receiver_id) do
+              order_xml(xml)
+            end  
           end
         end
       end
@@ -31,15 +29,6 @@ class DMI::Order::Message
   end
 
   protected
-
-  def namespaces
-    {
-      'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-      'xmlns:xsd' => 'http://www.w3.org/2001/XMLSchema',
-      'xmlns:soap' => 'http://schemas.xmlsoap.org/soap/envelope/',
-      'xmlns' => 'http://portal.suppliesnet.net'
-    }
-  end
 
   def order_xml(xml)
     xml.PurchaseOrder do
@@ -69,11 +58,6 @@ class DMI::Order::Message
     xml.State address.state_text.upcase
     xml.ZipCode address.zipcode
     xml.CountryCode address.country.try(:iso)
-    xml.Contact do
-      xml.ContactName address.full_name
-      xml.ContactMethod 'Phone'
-      xml.ContactAddress address.phone
-    end
   end
 
   def line_item_xml(line_item, rank, xml)

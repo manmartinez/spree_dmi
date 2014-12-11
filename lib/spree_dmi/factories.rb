@@ -1,6 +1,6 @@
 FactoryGirl.define do
-  # Define your Spree extensions Factories within this file to enable applications, and other extensions to use and override them.
-  #
-  # Example adding this to your spec_helper will load these Factories for use:
-  # require 'spree_dmi/factories'
+  factory :dmi_order_ready_to_ship, parent: :order_ready_to_ship do
+    dmi_status 'processed'
+    dmi_order_number { (1..8).map { rand(10) }.join }
+  end
 end
