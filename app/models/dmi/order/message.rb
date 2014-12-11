@@ -31,9 +31,11 @@ class DMI::Order::Message < DMI::Request
       xml.BillTo do
         address_xml(order.bill_address, xml)
       end
+
       xml.ShipTo do
         address_xml(order.ship_address, xml)
-      end
+      end      
+      
       xml.PurchaseOrderLines do
         order.line_items.each_with_index do |line_item, index|
           line_item_xml(line_item, index + 1, xml)

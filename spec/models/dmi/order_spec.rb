@@ -13,7 +13,7 @@ describe DMI::Order do
       let(:order) { create(:order_ready_to_ship) }
 
       before(:each) do
-        response = File.read("spec/fixtures/order_processed.xml")
+        response = File.read("spec/fixtures/order/order_processed.xml")
         savon.expects(:place_order).with(message: :any).returns(response)
       end
 
@@ -34,7 +34,7 @@ describe DMI::Order do
       let(:order) { create(:order_ready_to_ship) }
 
       before(:each) do 
-        response = File.read("spec/fixtures/unregistered_skus.xml")
+        response = File.read("spec/fixtures/order/unregistered_skus.xml")
         savon.expects(:place_order).with(message: :any).returns(response)
       end
 
@@ -54,7 +54,7 @@ describe DMI::Order do
       let(:order) { create(:order_ready_to_ship) } 
 
       before(:each) do 
-        soap_fault = File.read("spec/fixtures/soap_fault.xml")
+        soap_fault = File.read("spec/fixtures/shared/soap_fault.xml")
         response = { code: 500, headers: {}, body: soap_fault }
         savon.expects(:place_order).with(message: :any).returns(response)
       end

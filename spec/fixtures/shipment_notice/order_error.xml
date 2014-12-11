@@ -1,0 +1,17 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <soap:Body>
+        <RequestShipmentNoticeXMLResponse xmlns="http://portal.suppliesnet.net">
+            <RequestShipmentNoticeXMLResult>
+                <dmi:Shipments TestIndicator="T" xmlns:dmi="http://portal.suppliesnet.net">
+                    <dmi:Errors>
+                        <dmi:Error>
+                            <dmi:ErrorNumber>8</dmi:ErrorNumber>
+                            <dmi:ErrorDescription>Invalid OrderNumber in Order</dmi:ErrorDescription>
+                            <dmi:ErrorOrderNumber>12345678</dmi:ErrorOrderNumber>
+                        </dmi:Error>
+                    </dmi:Errors>
+                </dmi:Shipments>
+            </RequestShipmentNoticeXMLResult>
+        </RequestShipmentNoticeXMLResponse>
+    </soap:Body>
+</soap:Envelope>

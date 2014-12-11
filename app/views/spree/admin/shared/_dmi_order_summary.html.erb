@@ -1,5 +1,7 @@
 <dt><%= Spree.t(:dmi_status) %></dt>
-<dd><%= @order.dmi_status %></dd>
+<dd>
+    <span class="state <%= @order.dmi_status %>"><%= @order.dmi_status %></span>
+</dd>
 
 <% unless @order.dmi_order_number.blank? %>
     <dt><%= Spree.t(:dmi_order_number) %></dt>

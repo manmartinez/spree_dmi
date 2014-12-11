@@ -1,0 +1,16 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <soap:Body>
+        <RequestShipmentNoticeXMLResponse xmlns="http://portal.suppliesnet.net">
+            <RequestShipmentNoticeXMLResult>
+                <dmi:Shipments TestIndicator="T" xmlns:dmi="http://portal.suppliesnet.net">
+                    <dmi:Errors>
+                        <dmi:Error>
+                            <dmi:ErrorNumber>10</dmi:ErrorNumber>
+                            <dmi:ErrorDescription>Sales Order not found for Order (1)</dmi:ErrorDescription>
+                        </dmi:Error>
+                    </dmi:Errors>
+                </dmi:Shipments>
+            </RequestShipmentNoticeXMLResult>
+        </RequestShipmentNoticeXMLResponse>
+    </soap:Body>
+</soap:Envelope>
