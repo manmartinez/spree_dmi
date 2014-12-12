@@ -1,6 +1,13 @@
 Spree::Order.class_eval do 
   state_machine do 
-    after_transition to: :complete, do: :send_to_dmi
+    after_transition to: :complete, do: :send_to_dmi_async
+  end
+
+  # Internal: Send the order to DMI asynchronously using sidekiq.
+  #
+  # Returns nothing
+  def send_to_dmi_async
+    DMI::PlaceOrderWorker.perform_async(self.id)
   end
   
   # Public: Send this order to DMI

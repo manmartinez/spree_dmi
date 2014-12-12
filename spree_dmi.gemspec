@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'spree_core', '~> 2.4.0.rc4'
   s.add_dependency 'savon'
+  s.add_dependency 'sidekiq'
 
   s.add_development_dependency 'capybara', '~> 2.4'
   s.add_development_dependency 'coffee-rails'
