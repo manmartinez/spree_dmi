@@ -1,0 +1,20 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <soap:Body>
+        <RequestInfoResponse xmlns="http://portal.suppliesnet.net">
+            <RequestInfoResult>
+                <dmi:ItemInformation GetPrice="0" GetAvailability="1" xmlns:dmi="http://portal.suppliesnet.net">
+                    <dmi:ContactID>6033947</dmi:ContactID>
+                    <dmi:PartnerISA>5wP6q0xXfM89f6pD</dmi:PartnerISA>
+                    <dmi:Items>
+                        <dmi:Item OEMNumber="841086107043" SellUOM="EA">
+                            <dmi:Availability DC="CA">10</dmi:Availability>
+                        </dmi:Item>
+                        <dmi:Item OEMNumber="841086107036" SellUOM="EA">
+                            <dmi:Availability DC="CA">10</dmi:Availability>
+                        </dmi:Item>
+                    </dmi:Items>
+                </dmi:ItemInformation>
+            </RequestInfoResult>
+        </RequestInfoResponse>
+    </soap:Body>
+</soap:Envelope>

@@ -11,6 +11,7 @@ class DMI::Catalog < DMI::Base
   # Returns false if any errors where encountered, true otherwise
   def request_availability(variants)
     response = request_info(xml: Request.new(variants, request_availability: true).to_xml)
+    process_response(response)
   end
 
   protected
@@ -39,9 +40,11 @@ class DMI::Catalog < DMI::Base
     return false if errors.any?
 
     items = document.xpath('//dmi:Item', namespaces)
+    items_processed = true
     items.each do |item|
-      process_item(item, namespaces)
+      items_processed = false unless process_item(item, namespaces)
     end
+    items_processed
   end
 
   # Internal: Log an error.
@@ -51,8 +54,8 @@ class DMI::Catalog < DMI::Base
   #
   # Returns nothing
   def log_error(error, namespaces)
-    code = error.at_xpath('dmi:ErrorNumber').try(:text)
-    description = error.at_xpath('dmi:ErrorDescription').try(:text)
+    code = error.at_xpath('dmi:ErrorNumber', namespaces).try(:text)
+    description = error.at_xpath('dmi:ErrorDescription', namespaces).try(:text)
     # We probably want to log this somewhere else, say a DB table
     Rails.logger.error("[ERROR] DMI::Catalog encountered an error: (#{code}) #{description}")
   end
@@ -70,10 +73,12 @@ class DMI::Catalog < DMI::Base
   def process_item(item, namespaces)
     variant = Spree::Variant.find_by(sku: item.attr('OEMNumber'))
     return false if variant.nil?
-    count_per_location = item.xpath('dmi:Availability')
+    count_per_location = item.xpath('dmi:Availability', namespaces)
+    stock_updated = true
     count_per_location.each do |count_on_location|
-      update_count_at_location(variant, count_on_location)
+      stock_updated = false unless update_count_at_location(variant, count_on_location)
     end
+    stock_updated
   end
 
   # Internal: Make sure stock for a variant matches Spree's stock
@@ -84,15 +89,18 @@ class DMI::Catalog < DMI::Base
   #
   # Returns false if any errors where encountered, true otherwise
   def update_count_at_location(variant, count_on_location)
+    dmi_count = count_on_location.text.to_i
+    return false if dmi_count < 0
+
     location_code = count_on_location.attr('DC')
-    stock_location = Spree::StockLocation.find_by(dmi_code: location_code)
+    stock_location = Spree::StockLocation.joins(:state).find_by(Spree::State.table_name => { abbr: location_code })
     return false if stock_location.nil?
 
     stock_item = variant.stock_items.find_by(stock_location_id: stock_location.id)
-    dmi_count = count_on_location.text.to_i
 
     if stock_item.count_on_hand != dmi_count
       # Alert the user that there was a discrepancy here
+      Rails.logger.warn("[WARNING] Expected #{stock_item.count_on_hand} on hand for #{variant.sku} at #{location_code}, got: #{dmi_count}")
       stock_item.stock_movements.build(quantity: dmi_count - stock_item.count_on_hand).save
     else
       true

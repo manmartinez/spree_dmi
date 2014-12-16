@@ -1,14 +1,24 @@
 class DMI::Catalog::Request < DMI::Request
 
-  attr_accessor :items, :request_availability, :request_price
+  attr_accessor :variants, :request_availability, :request_price
 
-  def initialize(items, request_availability: false, request_price: false)
-    self.items = items
+  def initialize(variants, request_availability: false, request_price: false)
+    self.variants = variants
     self.request_availability = request_availability
     self.request_price = request_price
   end
 
   protected 
+
+  def namespaces
+    {
+      'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
+      'xmlns:xsd' => 'http://www.w3.org/2001/XMLSchema',
+      'xmlns:soap' => 'http://schemas.xmlsoap.org/soap/envelope/',
+      'xmlns:dmi' => 'http://portal.suppliesnet.net',
+      'xmlns' => 'http://portal.suppliesnet.net'
+    }
+  end
 
   def soap_body(xml)
     xml.RequestInfo do 
@@ -19,20 +29,20 @@ class DMI::Catalog::Request < DMI::Request
   end
 
   def items_xml(xml)
-    xml.ItemInformation(item_information_attributes) do 
-      xml.ContactID Spree::Config.dmi_receiver_id
-      xml.Items do 
-        # items.each do |item|
-          xml.Item("OEMNumber" => '841086107036', "ReferenceNumber" => '934675')
-        # end
+    xml['dmi'].ItemInformation(item_information_attributes) do 
+      xml['dmi'].PartnerISA Spree::Config.dmi_sender_id
+      xml['dmi'].Items do 
+        variants.each do |variant|
+          xml['dmi'].Item("OEMNumber" => variant.sku)
+        end
       end
     end
   end
 
   def item_information_attributes
     attributes = {}
-    attributes['GetPrice'] = 1
-    attributes['GetAvailability'] = 1
+    attributes['GetPrice'] = request_price ? '1' : '0'
+    attributes['GetAvailability'] = request_availability ? '1' : '0'
     attributes
   end
 end
