@@ -1,11 +1,19 @@
 en:
   activerecord: 
+    models:
+      spree/dmi_event:
+        one: DMI Event
+        other: DMI Events 
     attributes:
       spree/order:
         dmi_notes: Notes
         dmi_order_number: DMI order number
         dmi_status: DMI status
   spree:
+    description: Description
+    dmi_events: DM fulfillment
+    dmi_events_description: A log for communications with DM fulfillment
     dmi_notes: Notes
     dmi_order_number: DMI order number
     dmi_status: DMI status
+    event_type: Event Type

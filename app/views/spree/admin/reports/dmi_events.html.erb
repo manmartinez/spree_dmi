@@ -1,0 +1,30 @@
+<% content_for :page_title do %>
+  <%= Spree.t(:dmi_events) %>
+<% end %>
+
+<% content_for :page_actions do %>
+  <%= link_to_with_icon 'arrow-left', Spree.t(:back_to_reports_list), spree.admin_reports_url, :class => 'btn btn-default' %>
+<% end %>
+
+<% if @events.any? %>
+    <table class="table table-bordered" data-hook="dmi_events">
+        <thead>
+            <tr>
+               <th><%= Spree.t(:event_type) %></th> 
+               <th><%= Spree.t(:description) %></th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @dmi_events.each do |event| %>
+                <tr>
+                    <td><%= event.event_type %></td>
+                    <td><%= event.description %></td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+<% else %>
+    <div class="text-center no-objects-found">
+        <%= Spree.t(:no_resource_found, resource: I18n.t(:other, scope: 'activerecord.models.spree/dmi_event')) %>        
+    </div>
+<% end %>

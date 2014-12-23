@@ -78,7 +78,10 @@ class DMI::ShipmentNotice < DMI::Base
   def process_shipment(shipment, namespaces)
     order_number = shipment.at_xpath('dmi:OrderNumber', namespaces).try(:text)
     order = Spree::Order.find_by(dmi_order_number: order_number) unless order_number.nil?
-    return false if order.nil?
+    if order.nil?
+      Spree::DmiEvent.create_error("Couldn't find order with DMI order number: #{order_number}")
+      return false 
+    end
 
     shipped_at_string = shipment.at_xpath('dmi:DateShipped', namespaces).try(:text)
     return true if shipped_at_string.blank? || order.shipped?
@@ -106,8 +109,7 @@ class DMI::ShipmentNotice < DMI::Base
     order_number = error.at_xpath('dmi:ErrorOrderNumber', namespaces).try(:text)
     description = error.at_xpath('dmi:ErrorDescription', namespaces).try(:text)
 
-    # Where exactly should we log this error?
-    Rails.logger.error("[ERROR] DMI::ShipmentNotice encountered an error: (#{code}) #{description}")
+    Spree::DmiEvent.create_error("An error ocurred while syncing shipping information: (#{code}) #{description}")
     
     unless order_number.nil?
       order = Spree::Order.find_by(dmi_order_number: order_number)

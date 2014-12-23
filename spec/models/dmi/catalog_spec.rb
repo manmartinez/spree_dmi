@@ -34,8 +34,9 @@ describe DMI::Catalog do
         end
 
         it "logs the discrepancy" do 
-          expect(Rails.logger).to receive(:warn).exactly(variants.size).times
-          catalog.request_availability(variants)
+          expect{
+            catalog.request_availability(variants)  
+          }.to change(Spree::DmiEvent, :count).by(variants.size)
         end
 
         it "returns true" do 
@@ -60,7 +61,11 @@ describe DMI::Catalog do
     end
 
     context "with unregistered SKU numbers" do 
-      let(:variants) { create_list(:variant, 3) }
+      let(:variants) do 
+        %w(ROR-00008 ROR-00009 ROR-00010).map do |sku|
+          create(:variant, sku: sku)
+        end
+      end
 
       before(:each) do
         response = File.read("spec/fixtures/catalog/items_not_found.xml")
@@ -71,9 +76,11 @@ describe DMI::Catalog do
         expect(catalog.request_availability(variants)).to be false
       end
 
-      # it "logs the error" do 
-
-      # end
+      it "logs the error" do 
+        expect{
+          catalog.request_availability(variants)
+        }.to change(Spree::DmiEvent, :count).by(variants.size)
+      end
     end
 
     context "when something goes terribly wrong" do 

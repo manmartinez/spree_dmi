@@ -95,8 +95,9 @@ describe DMI::ShipmentNotice do
       end
 
       it "logs the error" do 
-        expect(Rails.logger).to receive(:error)
-        shipment_notice.request_with_orders(orders)
+        expect{
+          shipment_notice.request_with_orders(orders)  
+        }.to change(Spree::DmiEvent.error, :count).by(1)
       end
     end
 

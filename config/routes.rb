@@ -1,3 +1,7 @@
 Spree::Core::Engine.routes.draw do
-  # Add your extension routes here
+  namespace :admin do 
+    resources :reports, only: [] do 
+      get :dmi_events, on: :collection
+    end
+  end
 end
