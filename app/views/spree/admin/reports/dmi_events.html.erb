@@ -6,19 +6,47 @@
   <%= link_to_with_icon 'arrow-left', Spree.t(:back_to_reports_list), spree.admin_reports_url, :class => 'btn btn-default' %>
 <% end %>
 
+<% content_for :table_filter_title do %>
+  <%= Spree.t(:date_range) %>
+<% end %>
+
+<% content_for :table_filter do %>
+    <%= search_form_for @search, :url => spree.dmi_events_admin_reports_path  do |s| %>
+        <div class="date-range-filter field align-center">
+            <%= label_tag :q_created_at_gt, Spree.t(:start), :class => 'inline' %>
+            <%= s.text_field :created_at_gt, :class => 'datepicker datepicker-from', :value => datepicker_field_value(params[:q][:created_at_gt]) %>
+            
+            <span class="range-divider">
+              <i class="fa fa-arrow-right"></i>
+            </span>
+
+            <%= s.text_field :created_at_lt, :class => 'datepicker datepicker-to', :value => datepicker_field_value(params[:q][:created_at_lt]) %>
+            <%= label_tag :q_created_at_lt, Spree.t(:end), :class => 'inline' %>
+        </div>
+
+        <div class="actions filter-actions">
+            <%= button Spree.t(:search), 'search'  %>
+        </div>
+    <% end %>
+<% end %>
+
 <% if @events.any? %>
     <table class="table table-bordered" data-hook="dmi_events">
         <thead>
             <tr>
-               <th><%= Spree.t(:event_type) %></th> 
-               <th><%= Spree.t(:description) %></th>
+               <th><%= sort_link @search, :event_type, Spree.t(:event_type) %></th> 
+               <th><%= sort_link @search, :description, Spree.t(:description) %></th>
+               <th><%= sort_link @search, :date, Spree.t(:date) %></td>
             </tr>
         </thead>
         <tbody>
             <% @events.each do |event| %>
                 <tr>
-                    <td><%= event.event_type %></td>
+                    <td align="center" class="text-center">
+                        <%= content_tag :span, event.event_type, class: "state #{event.event_type}" %>
+                    </td>
                     <td><%= event.description %></td>
+                    <td align="center"><%= pretty_time event.created_at.localtime %></td>
                 </tr>
             <% end %>
         </tbody>
@@ -28,3 +56,5 @@
         <%= Spree.t(:no_resource_found, resource: I18n.t(:other, scope: 'activerecord.models.spree/dmi_event')) %>        
     </div>
 <% end %>
+
+<%= paginate @events %>
