@@ -9,7 +9,7 @@ module SpreeDmi
       g.test_framework :rspec
     end
 
-    initializer "spree.shipstation.preferences", :before => :load_config_initializers do |app|
+    initializer "spree.dmi.preferences", :before => :load_config_initializers do |app|
       Spree::AppConfiguration.class_eval do
         preference :dmi_sender_id, :string
         preference :dmi_receiver_id, :string
