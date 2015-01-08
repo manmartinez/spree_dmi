@@ -41,7 +41,8 @@ class DMI::Order::Message < DMI::Request
           line_item_xml(line_item, index + 1, xml)
         end
       end
-      xml.EndUserConfirmationEmailAddress order.email
+
+      xml.EndUserConfirmationEmailAddress order.email if Spree::Config.dmi_include_confirmation_email
     end
   end
 

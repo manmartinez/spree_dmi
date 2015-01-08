@@ -13,6 +13,8 @@ module SpreeDmi
       Spree::AppConfiguration.class_eval do
         preference :dmi_sender_id, :string
         preference :dmi_receiver_id, :string
+        preference :dmi_catalog_zipcode, :string
+        preference :dmi_include_confirmation_email, :boolean, default: false
       end
     end
 
