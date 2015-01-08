@@ -30,8 +30,8 @@ class DMI::Catalog::Request < DMI::Request
 
   def items_xml(xml)
     xml['dmi'].ItemInformation(item_information_attributes) do 
-      xml['dmi'].ZipCode Spree::Config.dmi_catalog_zipcode unless Spree::Config.dmi_catalog_zipcode.nil?
       xml['dmi'].PartnerISA Spree::Config.dmi_sender_id
+      xml['dmi'].ZipCode Spree::Config.dmi_catalog_zipcode unless Spree::Config.dmi_catalog_zipcode.blank?
       xml['dmi'].Items do 
         variants.each do |variant|
           xml['dmi'].Item("OEMNumber" => variant.sku)
