@@ -4,6 +4,10 @@ module SpreeDmi
 
       class_option :auto_run_migrations, :type => :boolean, :default => false
 
+      def add_stylesheets
+        inject_into_file 'vendor/assets/stylesheets/spree/backend/all.css', " *= require spree/backend/spree_dmi\n", before: /\*\//, verbose: true
+      end
+
       def add_migrations
         run 'bundle exec rake railties:install:migrations FROM=spree_dmi'
       end

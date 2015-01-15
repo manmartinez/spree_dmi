@@ -26,6 +26,13 @@ Spree::Order.class_eval do
     write_attribute(:dmi_status, status.downcase)
   end
 
+  # Public: True if this order has errors with DMI.
+  #
+  # Returns true if this order has errors with DMI, false otherwise
+  def dmi_error?
+    dmi_status == 'error'
+  end
+
   def self.candidates_for_shipment_notice
     where(dmi_status: :processed).where.not(shipment_state: :shipped, dmi_order_number: nil)
   end

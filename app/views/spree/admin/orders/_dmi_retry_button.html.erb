@@ -1,0 +1,3 @@
+<% if order.dmi_error? && order.dmi_order_number.nil? %>
+    <%= link_to '', retry_dmi_send_admin_order_url(order), title: Spree.t(:retry_with_dmi), class: 'fa fa-repeat with-tip no-text icon_link', data: { method: :patch } %>
+<% end %>

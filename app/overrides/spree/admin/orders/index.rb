@@ -11,3 +11,10 @@ Deface::Override.new(
   insert_before: '[data-hook="admin_orders_index_row_actions"]',
   partial: 'spree/admin/orders/dmi_column_values'
 )
+
+Deface::Override.new(
+  virtual_path: 'spree/admin/orders/index',
+  name: 'add_dmi_retry_button',
+  insert_bottom: '[data-hook="admin_orders_index_row_actions"]',
+  partial: 'spree/admin/orders/dmi_retry_button'
+)

@@ -18,3 +18,6 @@ en:
     dmi_order_number: DMI order number
     dmi_status: DMI status
     event_type: Event Type
+    retry_dmi_send_error: "There was an error while sending the order to DMI, check the order for more details"
+    retry_dmi_send_success: The order has successfully been sent to DMI
+    retry_with_dmi: Retry with DMI
