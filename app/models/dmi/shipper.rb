@@ -38,6 +38,10 @@ class DMI::Shipper
     success
   end
 
+  # Internal: This method needs to be implemented in order
+  # to be able to call errors.full_messages
+  #
+  # Returns the humanized version of the attribute
   def self.human_attribute_name(attr, options = {})
     attr
   end
