@@ -42,10 +42,6 @@ class DMI::Shipper
     attr
   end
 
-  def self.lookup_ancestors
-    [self]
-  end
-
   protected
 
     # Internal: Log any shipping errors.
