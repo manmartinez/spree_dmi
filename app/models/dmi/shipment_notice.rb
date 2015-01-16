@@ -85,11 +85,12 @@ class DMI::ShipmentNotice < DMI::Base
 
     shipped_at_string = shipment.at_xpath('dmi:DateShipped', namespaces).try(:text)
     return true if shipped_at_string.blank? || order.shipped?
-    
-    spree_shipment = order.shipments.first
-    spree_shipment.tracking = shipment.xpath('dmi:ShipmentTrackingNumbers/dmi:ShipmentTrackingNumber', namespaces).map(&:text).join(',')
-    spree_shipment.shipped_at = Date.parse(shipped_at_string)
-    spree_shipment.ship
+
+    tracking = shipment.xpath('dmi:ShipmentTrackingNumbers/dmi:ShipmentTrackingNumber', namespaces).map(&:text).join(',')
+    shipped_at = Date.parse(shipped_at_string)
+
+    shipper = DMI::Shipper.new(order)
+    shipper.ship(tracking, shipped_at)
   end
 
   # Internal: Process a single <Error> node.

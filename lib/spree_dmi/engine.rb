@@ -15,6 +15,7 @@ module SpreeDmi
         preference :dmi_receiver_id, :string
         preference :dmi_catalog_zipcode, :string
         preference :dmi_include_confirmation_email, :boolean, default: false
+        preference :dmi_capture_on_ship, :boolean, default: false
       end
     end
 
