@@ -28,6 +28,8 @@ class DMI::Order::Message < DMI::Request
   def order_xml(xml)
     xml.PurchaseOrder do
       xml.OrderType 'Dealer DropShip'
+      xml.DealerPONumber order.number
+
       xml.BillTo do
         address_xml(order.bill_address, xml)
       end
