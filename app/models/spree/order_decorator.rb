@@ -34,7 +34,7 @@ Spree::Order.class_eval do
   end
 
   def self.candidates_for_shipment_notice
-    where(dmi_status: :processed).where.not(shipment_state: :shipped, dmi_order_number: nil)
+    where.not(shipment_state: :shipped, dmi_order_number: nil, dmi_status: :error)
   end
 
 end

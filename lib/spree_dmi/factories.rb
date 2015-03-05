@@ -4,6 +4,11 @@ FactoryGirl.define do
     dmi_order_number { (1..8).map { rand(10) }.join }
   end
 
+  factory :shipped_dmi_order, parent: :shipped_order do 
+    dmi_status 'processed'
+    dmi_order_number { (1..8).map { rand(10) }.join }
+  end
+
   factory :dmi_order_with_pending_payments, parent: :completed_order_with_pending_payment do 
     dmi_status 'processed'
     dmi_order_number { (1..8).map { rand(10) }.join }
