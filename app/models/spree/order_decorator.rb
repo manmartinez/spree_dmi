@@ -1,5 +1,5 @@
-Spree::Order.class_eval do 
-  state_machine do 
+Spree::Order.class_eval do
+  state_machine do
     after_transition to: :complete, do: :send_to_dmi_async
   end
 
@@ -9,16 +9,16 @@ Spree::Order.class_eval do
   def send_to_dmi_async
     DMI::PlaceOrderWorker.perform_async(self.id)
   end
-  
+
   # Public: Send this order to DMI
-  # 
+  #
   # Returns true if the order was placed successfully in DMI, false otherwise
   def send_to_dmi
     DMI::Order.place(self)
   end
 
   # Public: Set the dmi_status column
-  # 
+  #
   # status - The DMI status
   #
   # Returns the status set.

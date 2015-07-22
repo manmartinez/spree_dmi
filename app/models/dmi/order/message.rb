@@ -12,11 +12,11 @@ class DMI::Order::Message < DMI::Request
     xml.PlaceOrder do
       xml.PurchaseOrders do
         xml.PurchaseOrders(
-          'TestIndicator' => test_indicator, 
+          'TestIndicator' => test_indicator,
           'SenderID' => Spree::Config.dmi_sender_id,
           'ReceiverID' => Spree::Config.dmi_receiver_id) do
           order_xml(xml)
-        end  
+        end
       end
     end
   end
@@ -29,6 +29,7 @@ class DMI::Order::Message < DMI::Request
     xml.PurchaseOrder do
       xml.OrderType 'Dealer DropShip'
       xml.DealerPONumber order.number
+      xml.CustomerPONumber order.number
 
       xml.BillTo do
         address_xml(order.bill_address, xml)
@@ -36,8 +37,8 @@ class DMI::Order::Message < DMI::Request
 
       xml.ShipTo do
         address_xml(order.ship_address, xml)
-      end      
-      
+      end
+
       line_items_xml(xml)
 
       xml.EndUserConfirmationEmailAddress order.email if Spree::Config.dmi_include_confirmation_email
@@ -78,20 +79,20 @@ class DMI::Order::Message < DMI::Request
   end
 
   # Internal: Additional information for the order.
-  # 
-  # Override this method to include additional information 
+  #
+  # Override this method to include additional information
   # of the order when sending it to DMI.
-  # 
+  #
   # xml - A Nokogiri::Builder instance
-  # 
+  #
   # Example:
-  # 
+  #
   #   # In /app/models/dmi/order/message_decorator.rb
-  #   DMI::Order::Message.class_eval do 
+  #   DMI::Order::Message.class_eval do
   #     def additional_information_xml(xml)
   #       # Add additional information XML here using
   #       # the xml parameter
-  #       xml.AdditionalInformation do 
+  #       xml.AdditionalInformation do
   #         xml.Company 'Railsdog'
   #         xml.CostCenter 'CA'
   #       end
@@ -100,24 +101,24 @@ class DMI::Order::Message < DMI::Request
   #
   # Returns nothing.
   def additional_information_xml(xml)
-    
+
   end
 
   # Internal: Additional information for the line_item.
-  # 
-  # Override this method to include additional XML 
+  #
+  # Override this method to include additional XML
   # of a line item order when sending it to DMI.
-  # 
+  #
   # line_item - A Spree::LineItem
   # xml - A Nokogiri::Builder instance
-  # 
+  #
   # Example:
-  # 
+  #
   #   # In /app/models/dmi/order/message_decorator.rb
-  #   DMI::Order::Message.class_eval do 
+  #   DMI::Order::Message.class_eval do
   #     def line_xml_data(line_item, xml)
   #       # Add additional information under <LineXMLData>
-  #       xml.LineXMLData do 
+  #       xml.LineXMLData do
   #         xml.Style line_item.style
   #         xml.Color line_item.color
   #       end
@@ -126,7 +127,7 @@ class DMI::Order::Message < DMI::Request
   #
   # Returns nothing.
   def line_item_xml_data(line_item, xml)
-    
+
   end
 
 end
