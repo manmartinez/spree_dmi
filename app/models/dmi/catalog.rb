@@ -17,9 +17,9 @@ class DMI::Catalog < DMI::Base
   protected
 
   # Internal: Process the response from the Webservice.
-  # 
+  #
   # Processing the response involves:
-  # 
+  #
   # 1. Handling SOAP faults and HTTP errors
   # 2. Processing errors from the response
   # 3. Updating stock for appropiate variants
@@ -34,8 +34,8 @@ class DMI::Catalog < DMI::Base
     namespaces = document.collect_namespaces
 
     errors = document.xpath('//dmi:Error', namespaces)
-    errors.each do |error| 
-      log_error(error, namespaces) 
+    errors.each do |error|
+      log_error(error, namespaces)
     end
     return false if errors.any?
 
@@ -56,12 +56,12 @@ class DMI::Catalog < DMI::Base
   def log_error(error, namespaces)
     code = error.at_xpath('dmi:ErrorNumber', namespaces).try(:text)
     description = error.at_xpath('dmi:ErrorDescription', namespaces).try(:text)
-    
+
     Spree::DmiEvent.create_error("An error ocurred while syncing stock: (#{code}) #{description}")
   end
 
   # Internal: Process a single <Item> node.
-  # 
+  #
   # Processing an item involves ensuring DMI's stock matches Spree's stock
   # for this item, in case stock doesn't match the proper Spree::StockMovements
   # will be generated
@@ -130,10 +130,11 @@ class DMI::Catalog < DMI::Base
   # Returns the true if the stock was synced successfully, false otherwise
   def sync_stock(variant, stock_location, dmi_count)
     stock_item = variant.stock_items.find_by(stock_location_id: stock_location.id)
+    spree_count = stock_item.try(:count_on_hand)
 
-    if stock_item.count_on_hand != dmi_count
-      Spree::DmiEvent.create_warning("Expected #{stock_item.count_on_hand} items on hand for sku:#{variant.sku} on stock location: #{stock_location.name}, got: #{dmi_count}")
-      stock_item.stock_movements.build(quantity: dmi_count - stock_item.count_on_hand).save
+    if spree_count != dmi_count
+      Spree::DmiEvent.create_warning("Spree has #{spree_count} items on hand for sku: #{variant.sku} on stock location: #{stock_location.name}, DMI has: #{dmi_count}")
+      stock_item.stock_movements.build(quantity: dmi_count - spree_count).save
     else
       true
     end
