@@ -130,13 +130,19 @@ class DMI::Catalog < DMI::Base
   # Returns the true if the stock was synced successfully, false otherwise
   def sync_stock(variant, stock_location, dmi_count)
     stock_item = variant.stock_items.find_by(stock_location_id: stock_location.id)
-    spree_count = stock_item.try(:count_on_hand)
+
+    if stock_item.nil?
+      Spree::DmiEvent.create_error("Spree doesn't have a stock item for the variant with sku: #{variant.sku} on stock location: #{stock_location.name}")
+      return false
+    end
+
+    spree_count = stock_item.count_on_hand
 
     if spree_count != dmi_count
       Spree::DmiEvent.create_warning("Spree has #{spree_count} items on hand for sku: #{variant.sku} on stock location: #{stock_location.name}, DMI has: #{dmi_count}")
-      stock_item.stock_movements.build(quantity: dmi_count - spree_count).save
-    else
-      true
+      return stock_item.stock_movements.build(quantity: dmi_count - spree_count).save
     end
+
+    true
   end
 end
