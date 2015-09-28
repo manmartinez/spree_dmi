@@ -20,7 +20,7 @@ describe Spree::Admin::ReportsController, type: :controller do
     context "with a date range" do
       before(:each) do
         create_list(:dmi_event, 3, created_at: Time.now - 1.day)
-        create_list(:dmi_event, 3, created_at: Time.now + 1.day)
+        create_list(:dmi_event, 3, created_at: Time.now + 2.days)
       end
 
       it "populates an array with events created between the two dates" do
