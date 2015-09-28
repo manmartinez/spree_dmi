@@ -27,7 +27,7 @@ class DMI::Order::Message < DMI::Request
 
   def order_xml(xml)
     xml.PurchaseOrder do
-      xml.OrderType 'Dealer DropShip'
+      xml.OrderType order_type
       xml.DealerPONumber order.number
       xml.CustomerPONumber order.number
 
@@ -102,6 +102,16 @@ class DMI::Order::Message < DMI::Request
   # Returns nothing.
   def additional_information_xml(xml)
 
+  end
+
+  # Internal: the value of the <OrderType> node
+  #
+  # You can override this method in your application to
+  # customize what should be sent
+  #
+  # Returns a string with the value for the <OrderType> node
+  def order_type
+    'Dealer DropShip'
   end
 
   # Internal: Additional information for the line_item.
