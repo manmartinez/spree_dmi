@@ -25,7 +25,7 @@ describe Spree::Admin::ReportsController, type: :controller do
 
       it "populates an array with events created between the two dates" do
         start_date = Time.now.beginning_of_month
-        end_date = Time.now
+        end_date = Time.now.end_of_day
         spree_get :dmi_events, q: { created_at_gt: start_date.strftime('%Y/%m/%d'), created_at_lt: end_date.strftime('%Y/%m/%d') }
 
         assigns(:events).each do |event|
